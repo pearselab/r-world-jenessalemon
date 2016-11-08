@@ -35,12 +35,13 @@ setup.plants(rep, sur, comp.matrix)
 
 survive <- function(cell, info){
   if(is.na(cell) || cell == " "){
-    #do something
+    break #not sure if I am using break right
   }
-  if(runif(1) <= info$survive[plant]){
-    #i think i need to store the plant in the cell
+  if(runif(1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
+    cell[i] == info[i] #not sure if i am supposed to be using info here
   }
 }
+
 
 
 
