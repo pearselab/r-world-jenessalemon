@@ -31,14 +31,41 @@ setup.plants <- function(repro, survive, comp.mat, names = NULL){
   repro <- setNames(repro, names)
   return(list(repro=repro, survive=survive, comp.mat=comp.mat, names=names))
 }
-setup.plants(rep, sur, comp.matrix)
+info <- setup.plants(rep, sur, comp.matrix) #calling to see if it works and saving it as info for later.
+info
 
-survive <- function(cell, info){
-  if(is.na(cell) || cell == " "){
-    break #not sure if I am using break right
+char.matrix <- matrix(data = NA, nrow=3, ncol=3)
+char.matrix[1, 1] <- " "
+char.matrix[1, 2] <- " "
+char.matrix[1, 3] <- " "
+char.matrix[2, 1] <- " "
+char.matrix[2, 2] <- " "
+char.matrix[2, 3] <- " "
+char.matrix[3, 1] <- " "
+char.matrix[3, 2] <- " "
+char.matrix[3, 3] <- " "
+char.matrix #just a check
+
+plant.timestep(plants, terrain, info){
+  survive <- function(cell, info){
+    if(is.na(cell) || cell == " "){
+      break #not sure if I am using break right
+   }
+    if(runif(1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
+      cell[i] <- info[i] #not sure if i am supposed to be using info here
+    }
   }
-  if(runif(1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
-    cell[i] == info[i] #not sure if i am supposed to be using info here
+  for (i in plants){
+    plants[i] <- survive(plants[i]) #not sure if this is right or if I need "plants[i] <-"
+  }
+  return(new.plants.matrix)
+}
+plant.timestep(char.matrix, terrain, info) #calling to see if it works
+
+run.plant.ecosystem <- function(){
+  plants <- array("", dim=c(terrain), timesteps+1)) #why timesteps +1?
+  for(i in seq_len(dim(plants)[3])){
+    plants[,,i][is.na(terrain)] <- NA
   }
 }
 
