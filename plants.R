@@ -62,7 +62,8 @@ plant.timestep(plants, terrain, info){
   for (i in plants){
     plants[i] <- survive(plants[i]) #not sure if this is right or if I need "plants[i] <-"
   }
-  return(new.plants.matrix)
+  plant <- reproduce(row, column, plants, info) #this comes from 6.3, we are calling our reproduce function
+  return(new.plants.matrix) #wouldn't this have to return plants?
 }
 plant.timestep(char.matrix, terrain, info) #calling to see if it works
 
@@ -72,7 +73,16 @@ run.plant.ecosystem <- function(terrain){
     plants[,,i][is.na(terrain)] <- NA
   }
 }
-
+###Ok now you are at 6.3!###
+reproduce <- function(row, col, plants, info){
+  possible.locations <- as.matrix(expand.grid(-1,0,1), col+c(-1,0,1)))
+  #now filter out which ones are not water-logged and reproduce there...
+  #being careful to check you do have somewhere to reproduce to!
+  if(is.na){
+    
+  }
+  return(plants)
+}
 
 
 
