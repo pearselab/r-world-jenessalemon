@@ -57,6 +57,7 @@ plant.timestep(plants, terrain, info){
    }
     if(runif(1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
       cell[i] <- info[i] #not sure if i am supposed to be using info here
+      #The plant might reproduce
     }
   }
   for (i in plants){
@@ -75,7 +76,7 @@ run.plant.ecosystem <- function(terrain){
 }
 ###Ok now you are at 6.3!###
 reproduce <- function(row, col, plants, info){
-  possible.locations <- as.matrix(expand.grid(-1,0,1), col+c(-1,0,1)))
+  possible.locations <- as.matrix(expand.grid(row+c(-1,0,1), col+c(-1,0,1)))
   #now filter out which ones are not water-logged and reproduce there...
   #being careful to check you do have somewhere to reproduce to!
   if(is.na){
