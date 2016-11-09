@@ -39,9 +39,21 @@ for (i in row.vector){
 }
 print(terrain)  
   
-
-  
-  
+x = sqrt(length of one side -1)
+x = 2
+2 is the number of iterations we have to go through
+start at x and go down to 1
+do a diamnond step, then all the square steps
+side_lenth = [4,2] tells you how many itreations to go through
+half = 2
+col.seq(1:size-1 by side_length[i])
+row.seq(1:size-1 by side_length[i])
+for(do-col in col.seq){
+  for(do-row in row.seq)
+    m[do-row in row:] # upper left
+    m[do-row, do-col +side-length]
+}
+average all the for in statements, then add noice to
   
   
   
@@ -59,8 +71,33 @@ print(terrain)
   terrain.matrix(5)                                                #checking to see if it worked
   
   
+  ###Paul's backup function
+  #set matrix dimension
+  n <- 10
   
+  #create matrix
+  tm <- matrix(0, n, n)
   
+  #set tm[1,1] elevation
+  tm[1,1] <- rnorm(1, 1000, 500) 
+  
+  # set values for remaining points in first row.
+  # each value is function of value already created to left
+  for(col in 2:n){
+    tm[1,col] <- rnorm(1, tm[1, col-1], abs(tm[1, col-1]))
+  }
+  
+  # do same for remaining cells. But now each cell is rnorm function of mean of value to left and above
+  for(row in 2:n){
+    for(col in 1:n){
+      if(col == 1){
+        tm[row,1] <- (rnorm(1, tm[row-1, 1], abs(tm[row-1, 1])))
+      }else{
+        tm[row,col] <- rnorm(1, mean(tm[row-1, col], tm[row, col-1]), mean(abs(tm[row-1, col]), abs(tm[row, col-1])))
+      }
+    }
+  }
+  print(tm)
   
   
   
