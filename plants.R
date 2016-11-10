@@ -55,14 +55,18 @@ info
 
 plant.timestep(plants, terrain, info){
   survive <- function(cell, info){
-    if(is.na(cell) || cell == " "){
-      break #not sure if I am using break right
-   }
-    if(runif(1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
-      cell[i] <- info[i] #not sure if i am supposed to be using info here
-      #The plant might reproduce
-    }
-  }
+    for(cell in terrain){  #do I need a for loop here? 
+      if(is.na(terrain[cell]) || terrain[cell] != " "){   #if the cell is water or occupied
+      return(plants) #or do I want to return terrain?
+      }else{
+        if(runif(1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
+        terrain[cell] <- info[i] #not sure if i am supposed to be using info here
+        return(modified.plants)
+        #The plant might reproduce
+        }
+      }
+    } #closes the for loop
+  } #closes survive function
   for (i in plants){
     plants[i] <- survive(plants[i]) #not sure if this is right or if I need "plants[i] <-"
   }
