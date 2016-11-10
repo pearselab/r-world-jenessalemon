@@ -75,25 +75,30 @@ plant.timestep(plants, terrain, info){
 }
 plant.timestep(char.matrix, terrain, info) #calling to see if it works
 
-run.plant.ecosystem <- function(terrain){
-  plants <- array("", dim=c(terrain), timesteps+1)) #why timesteps +1?
-  for(i in seq_len(dim(plants)[3])){
-    plants[,,i][is.na(terrain)] <- NA
-  }
-}
+
 ###Ok now you are at 6.3!###
 reproduce <- function(row, col, plants, info){
   possible.locations <- as.matrix(expand.grid(row+c(-1,0,1), col+c(-1,0,1)))
-  #now filter out which ones are not water-logged and reproduce there...
-  #being careful to check you do have somewhere to reproduce to!
-  if(is.na){
-    
+  #possible.locations
+  if(!is.na(possible.locations)){ #filtering out water-logged
+    reproduce!
+  }
+  #being careful to check you do have somewhere to reproduce to! ...???
+  if(someone is already in the possible location){
+    they are going to compete!
   }
   return(plants)
 }
 
+fight <- function(names, 1, prob=comp.mat[row, column]){
+}
 
-
+run.plant.ecosystem <- function(terrain){
+  plants <- array("", dim=c(terrain), timesteps+1)) #why timesteps +1?
+for(i in seq_len(dim(plants)[3])){
+  plants[,,i][is.na(terrain)] <- NA
+}
+}
 
 
 
