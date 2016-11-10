@@ -43,6 +43,9 @@ setup.plants <- function(repro, survive, comp.mat, names = NULL){
   if(any(repro > 1) | any(repro < 0)){
     stop("Invalid probability")
   }
+  if (!is.matrix(comp.mat)){
+    "Please insert competition probabilities as a matrix"
+  }
   survive <- setNames(survive, names)
   repro <- setNames(repro, names)
   return(list(repro=repro, survive=survive, comp.mat=comp.mat, names=names))
