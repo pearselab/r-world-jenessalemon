@@ -65,19 +65,16 @@ terrain <- square.step(pre.terrain)
 #terrain #just a check
 
 #The whole burrito
-fill <- function(dimen){
+diamond.square.step <- function(dimensions){
   step1 <- function(dimen){
-    matrix1 <- setup.matrix(dimen)
+    matrix1 <- setup.matrix(dimensions)
     matrix2 <- diamond.step(matrix1)
     matrix3 <- square.step(matrix2)
     return(matrix3)
   }
-  for (however many steps it takes)
+  for (however many steps it takes) #probably going to have some tricky subsetting 
     step1(matrix3)
 }
 fill(5)
 #Awesome. Now I need a way to navigate through the matrix
 
-complete <- function(mat){
-  
-}
