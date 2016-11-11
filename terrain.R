@@ -14,7 +14,7 @@ How to do this?
                         for(i in steps){
                         matrix[...,...] <- ...     '''
 ############################################################################################################
-square.matrix <- function(dimensions){
+setup.matrix <- function(dimensions){
   if(x %% 2 == 0){
     x <- x+1           #If the number is even add one to make it odd.
   }
@@ -26,8 +26,8 @@ square.matrix <- function(dimensions){
   ter.mat[nrow(ter.mat), ncol(ter.mat)] <- rnorm(1, rnorm(1), runif(1, min = 0))
   return(ter.mat)
 }
-setup <- square.matrix(5)
-setup  #just a check
+setup <- setup.matrix(5)
+#setup  #just a check
 
 diamond.step <- function(matrix){
   topL <- matrix[1,1]
@@ -41,7 +41,7 @@ diamond.step <- function(matrix){
   return(matrix)
 }
 pre.terrain <- diamond.step(setup)
-pre.terrain #just a check
+#pre.terrain #just a check
 
 square.step <- function(matrix){
   topL <- matrix[1,1]
@@ -62,6 +62,22 @@ square.step <- function(matrix){
   return(matrix)
 }
 terrain <- square.step(pre.terrain)
-terrain #just a check
+#terrain #just a check
 
+#The whole burrito
+fill <- function(dimen){
+  step1 <- function(dimen){
+    matrix1 <- setup.matrix(dimen)
+    matrix2 <- diamond.step(matrix1)
+    matrix3 <- square.step(matrix2)
+    return(matrix3)
+  }
+  for (however many steps it takes)
+    step1(matrix3)
+}
+fill(5)
+#Awesome. Now I need a way to navigate through the matrix
 
+complete <- function(mat){
+  
+}
