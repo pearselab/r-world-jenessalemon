@@ -14,58 +14,54 @@ How to do this?
                         for(i in steps){
                         matrix[...,...] <- ...     '''
 ############################################################################################################
-terrain <- matrix(data = NA, nrow = 21, ncol = 21)
-wd <- ncol
-ht <- nrow
-diamond.step <- function(matrix){
-  terrain[1, nrow] <- rnorm(1, 0, 1)
-  terrain[ncol, nrow] <- rnorm(1, 0, 1)
-  terrain[ncol, 1] <- rnorm(1, 0, 1)
-  terrain[1, 1] <- rnorm(1, 0, 1)
+square.matrix <- function(dimensions){
+  if(x %% 2 == 0){
+    x <- x+1           #If the number is even add one to make it odd.
+  }
+  ter.mat <- matrix(nrow = dimensions, ncol = dimensions) #ensuring a square matrix
+  #Four corners
+  ter.mat[1,1] <- rnorm(1, rnorm(1), runif(1, min = 0)) #one draw, random mean, random sd, from a uniform distribution beacuse we can't have a negative sd!
+  ter.mat[1, ncol(ter.mat)] <- rnorm(1, rnorm(1), runif(1, min = 0))
+  ter.mat[nrow(ter.mat), 1] <- rnorm(1, rnorm(1), runif(1, min = 0))
+  ter.mat[nrow(ter.mat), ncol(ter.mat)] <- rnorm(1, rnorm(1), runif(1, min = 0))
+  return(ter.mat)
 }
-diamond.step(terrain)
+setup <- square.matrix(5)
+setup  #just a check
 
-terrain <- matrix(data = NA, nrow = 9, ncol = 9)
-row.vector <- c(1, 5, 9)
-col.vector <- c(1, 5, 9)
-for (i in row.vector){
-  for (j in col.vector){
-    if (is.na(terrain[i,j])){
-    terrain[i,j] <- rnorm(1, 10, 100)
-    }else{
-      cat("Already a number there!")
-    }
-  }
+diamond.step <- function(matrix){
+  topL <- matrix[1,1]
+  topR <- matrix[1, ncol(matrix)]
+  bottomL <- matrix[nrow(matrix), 1]
+  bottomR <- matrix[nrow(matrix), ncol(matrix)]
+  #find center
+  center <- jitter(mean(topL, topR, bottomL, bottomR))
+  #actual diamond step part
+  matrix[mean(1:nrow(matrix)),mean(1:ncol(matrix))] <- center
+  return(matrix)
 }
-print(terrain)  
-  
-x = sqrt(length of one side -1)
-x = 2
-2 is the number of iterations we have to go through
-start at x and go down to 1
-do a diamnond step, then all the square steps
-side_lenth = [4,2] tells you how many itreations to go through
-half = 2
-col.seq(1:size-1 by side_length[i])
-row.seq(1:size-1 by side_length[i])
-for(do-col in col.seq){
-  for(do-row in row.seq)
-    m[do-row in row:] # upper left
-    m[do-row, do-col +side-length]
+pre.terrain <- diamond.step(setup)
+pre.terrain #just a check
+
+square.step <- function(matrix){
+  topL <- matrix[1,1]
+  topR <- matrix[1, ncol(matrix)]
+  bottomL <- matrix[nrow(matrix), 1]
+  bottomR <- matrix[nrow(matrix), ncol(matrix)]
+  center <- matrix[mean(1:nrow(matrix)),mean(1:ncol(matrix))]
+  #target cells
+  top <- jitter(mean(topL, topR, center))
+  bottom <- jitter(mean(bottomL, bottomR, center))
+  left <- jitter(mean(topL, bottomL, center))
+  right <- jitter(mean(topR, bottomR, center))
+  #actual square step
+  matrix[1,mean(1:ncol(matrix))] <- top
+  matrix[nrow(matrix),mean(1:ncol(matrix))] <- bottom
+  matrix[mean(1:nrow(matrix)),1] <- left
+  matrix[mean(1:nrow(matrix)),ncol(matrix)] <- right
+  return(matrix)
 }
-average all the for in statements, then add noice to
-  
-  
-  
-  
-  
-  
-  terrain.matrix <- function(n){
-    matrix <- matrix(data=NA, nrow = (2*n)+1, ncol = (2*n)+1)       #define matrix
-    matrix[1,1] <- rnorm(1,0,15)                                    #defining 4 corners
-    matrix[(2*n)+1,1] <- rnorm(1,0,15)
-    matrix[1,(2*n)+1] <- rnorm(1,0,15)
-    matrix[(2*n)+1,(2*n)+1] <- rnorm(1,0,15)
-    return(matrix)
-  }
-  terrain.matrix(5)                                                #checking to see if it worked
+terrain <- square.step(pre.terrain)
+terrain #just a check
+
+
