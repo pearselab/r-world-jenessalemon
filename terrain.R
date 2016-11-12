@@ -14,11 +14,11 @@ How to do this?
                         for(i in steps){
                         matrix[...,...] <- ...     '''
 ############################################################################################################
-setup.matrix <- function(dimensions){
-  if(x %% 2 == 0){
-    x <- x+1           #If the number is even add one to make it odd.
+setup.matrix <- function(dimen){
+  if(dimen %% 2 == 0){
+    dimen <- dimen+1           #If the number is even add one to make it odd.
   }
-  ter.mat <- matrix(nrow = dimensions, ncol = dimensions) #ensuring a square matrix
+  ter.mat <- matrix(nrow = dimen, ncol = dimen) #ensuring a square matrix
   #Four corners
   ter.mat[1,1] <- rnorm(1, rnorm(1), runif(1, min = 0)) #one draw, random mean, random sd, from a uniform distribution beacuse we can't have a negative sd!
   ter.mat[1, ncol(ter.mat)] <- rnorm(1, rnorm(1), runif(1, min = 0))
@@ -41,7 +41,7 @@ diamond.step <- function(matrix){
   return(matrix)
 }
 pre.terrain <- diamond.step(setup)
-#pre.terrain #just a check
+pre.terrain #just a check
 
 square.step <- function(matrix){
   topL <- matrix[1,1]
@@ -64,17 +64,24 @@ square.step <- function(matrix){
 terrain <- square.step(pre.terrain)
 #terrain #just a check
 
-#The whole burrito
+#write two functions that expect to be given a square matrix, and will simply carry out each step on that matrix. It will have ‘step through’ your matrix, calling those functions with smaller and smaller chunks of the matrix as the algorithm progresses.
 diamond.square.step <- function(dimensions){
+  midpoint <- function(x){
+    
+  }
   step1 <- function(dimen){
     matrix1 <- setup.matrix(dimensions)
     matrix2 <- diamond.step(matrix1)
     matrix3 <- square.step(matrix2)
     return(matrix3)
   }
-  for (however many steps it takes) #probably going to have some tricky subsetting 
+  for (i in dimensions){ #probably going to have some tricky subsetting 
     step1(matrix3)
 }
-fill(5)
+diamond.square.step(terrain)
 #Awesome. Now I need a way to navigate through the matrix
 
+make.terrian <- function(x){
+  
+}
+  
