@@ -27,6 +27,11 @@ names <- list("shockleyi", "soredium", "longilobum") #does it matter if we use a
 char.matrix <- matrix(data=NA, nrow = length(rep), ncol = length(rep)) #initializing a matrix of appropriate size.
 char.matrix #just checking
 
+#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
+#' @param the matrix returned by the diamond.step function above should be passed in here.
+#' @author Jenessa Lemon
+#' @examples square.step(pre.terrain)
+#' @export
 setup.plants <- function(repro, survive, comp.mat, names = NULL){
   if(is.null(names)){
     names <- letters[seq_along(repro)] #is this just assigning names a, b, c, if it doesn't already have a name?
@@ -53,9 +58,14 @@ setup.plants <- function(repro, survive, comp.mat, names = NULL){
 info <- setup.plants(rep, sur, comp.matrix, names) #calling to see if it works and saving it as info for later.
 info
 
+#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
+#' @param the matrix returned by the diamond.step function above should be passed in here.
+#' @author Jenessa Lemon
+#' @examples square.step(pre.terrain)
+#' @export
 plant.timestep(plants, terrain, info){
   survive <- function(cell, info){
-    for(cell in terrain){  #do I need a for loop here? 
+    for(cell in terrain){  #do I need a for loop here?
       if(is.na(terrain[cell]) || terrain[cell] != " "){   #if the cell is water or occupied
       return(plants) #or do I want to return terrain?
       }else{
@@ -75,7 +85,11 @@ plant.timestep(plants, terrain, info){
 }
 plant.timestep(char.matrix, terrain, info) #calling to see if it works
 
-
+#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
+#' @param the matrix returned by the diamond.step function above should be passed in here.
+#' @author Jenessa Lemon
+#' @examples square.step(pre.terrain)
+#' @export
 ###Ok now you are at 6.3!###
 reproduce <- function(row, col, plants, info){
   possible.locations <- as.matrix(expand.grid(row+c(-1,0,1), col+c(-1,0,1)))
@@ -92,7 +106,11 @@ reproduce <- function(row, col, plants, info){
 
 fight <- function(names, 1, prob=comp.mat[row, column]){
 }
-
+#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
+#' @param the matrix returned by the diamond.step function above should be passed in here.
+#' @author Jenessa Lemon
+#' @examples square.step(pre.terrain)
+#' @export
 run.plant.ecosystem <- function(terrain){
   plants <- array("", dim=c(terrain), timesteps+1)) #why timesteps +1?
 for(i in seq_len(dim(plants)[3])){

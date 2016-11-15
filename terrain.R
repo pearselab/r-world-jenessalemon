@@ -70,6 +70,7 @@ terrain <- square.step(pre.terrain)
 #' @examples diamond.square.step(terrain)
 #' @export
 #write two functions that expect to be given a square matrix, and will simply carry out each step on that matrix. It will have ‘step through’ your matrix, calling those functions with smaller and smaller chunks of the matrix as the algorithm progresses.
+#ATTEMPT 1
 diamond.square.step <- function(dimens){
   matrix1 <- setup.matrix(dimens)
   matrix2 <- diamond.step(matrix1)
@@ -108,7 +109,51 @@ seq(1, 9, 2)
 #I need to somehow take these dimensions, and index the matrix from 1:3, 3:5, 5:7, 7:9
 #I have no idea how to do that
 
+#ATTEMPT 2
+
+  for (i in seq(1, ncol, ncol-1)){     #I need ncol-1 to be cut in half sequentially
+    top <- ncol(duck.matrix)
+    mid <- (top + 1)/2
+    duck.matrix[1:mid, 1:mid] <- diamond.step(duck.matrix[1:mid, 1:mid])
+    duck.matrix[1:mid, 1:mid] <- square.step(duck.matrix[1:mid, 1:mid])
+    duck.matrix[mid:top, 1:mid] <- diamond.step(duck.matrix[mid:top, 1:mid])
+    duck.matrix[mid:top, 1:mid] <- square.step(duck.matrix[mid:top, 1:mid)
+    duck.matrix[mid:top,mid:top] <- diamond.step(duck.matrix[mid:top,mid:top])
+    duck.matrix[mid:top,mid:top] <- square.step(duck.matrix[mid:top,mid:top])
+    duck.matrix[1:mid,mid:top] <- diamond.step(duck.matrix[1:mid,mid:top])
+    duck.matrix[1:mid,mid:top] <- square.step(duck.matrix[1:mid,mid:top])
+  }
+  duck.matrix
+
+#function to predetermine the "top" and how many steps it's going to take
+#By Paul Wolf :)
+  numb.matrix.rows <- function(n, rows=3){
+    if(n > 100){
+      return("too many cycles, please enter smaller number")# This certainly prevents making a matrix
+      # that is too big - but it should give a better error message at the approporiate spot
+    }else{
+      for(i in 1:n){
+        rows <- rows + (rows-1)
+      }
+    }
+    return(rows)
+  }
+  # now make matrix numb.matrix.rows x same
+  n <- 16 # number of reduction cycles
+  print(numb.matrix.rows(n))
+  x <- numb.matrix.rows(n)
 
 
+  # silly having function - it is not quite half
+  half <- function(x){
+    return((x+1)/2)
+  }
 
 
+  #now build vector of matrix slices
+  size.vect <- c(x)
+  while(x > 3){
+    x <- half(x)
+    size.vect <- append(size.vect, x)
+  }
+  print(size.vect)
