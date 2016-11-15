@@ -76,6 +76,9 @@ diamond.square.step <- function(dimens){
   matrix2 <- diamond.step(matrix1)
   mat <- square.step(matrix2)
   size <- ncol(mat) - 1
+  for (i in 1:who knows){
+    size <- seq(1, size, by = (i-1)/2)
+  }
   for (i in seq(from=1, to=(ncol(mat)), by=size)){ #I want the by to be cut in half every iteration
     mat[i:i, i:i]<-diamond.step(mat[i:i, i:i])
     mat[i:i, i:i]<-square.step(mat[i:i, i:i])
@@ -87,9 +90,6 @@ diamond.square.step <- function(dimens){
 }
 hey <- diamond.square.step(5)
 hey
-seq(1, 9, 8)
-seq(1, 9, 4)
-seq(1, 9, 2)
 
 
 #In English first:
