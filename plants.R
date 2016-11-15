@@ -1,5 +1,5 @@
 #Parameters
-rep <- runif(n=4, min=0, max=1) #runif because we don't want negative probabilities!
+rep <- runif(n=2, min=0, max=1) #runif because we don't want negative probabilities!
 rep #just checking
 
 sur <- survive <- runif(n=length(rep), min=0, max=1) #again we don't want negatives, and we want the same length
@@ -7,7 +7,7 @@ sur #just checking
 
 comp.list <- runif(n=length(rep)^2, min = 0, max = 1)
 comp.list #just checking
-comp.matrix <- matrix(comps, nrow = length(rep), ncol = length(rep))
+comp.matrix <- matrix(comp.list, nrow = length(rep), ncol = length(rep))
 comp.matrix
 #### I manually created a matrix before I saw Carol's cool way to randomly generate one.
 #comp.matrix <- matrix(data = NA, nrow=3, ncol=3)
@@ -22,22 +22,28 @@ comp.matrix
 #comp.matrix[3, 3] <- .7
 #comp.matrix #just a check
 
-names <- list("shockleyi", "soredium", "longilobum") #does it matter if we use a list or a vector?
+names <- list("shockleyi", "soredium") #does it matter if we use a list or a vector?
 
 char.matrix <- matrix(data=NA, nrow = length(rep), ncol = length(rep)) #initializing a matrix of appropriate size.
 char.matrix #just checking
 
-#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
-#' @param the matrix returned by the diamond.step function above should be passed in here.
+#' This function checks that both reproduction and survival vectors are the lenght of the number of species in the simulation. It also checks that that the competition matrix has the dimensions of all of these variables.
+#' @param repro is the vector of probabilities that will determine if a plant of a given species will reproduce.
+#' @param survive is the vector of probabilities that will determine if a plant of a given species will survive.
+#' @param comp.mat is the matrix of competitions created above, and determines which plant will succeed and which will fail should they compete for living space.
+#' @param names is a list of the names of the different species (created above.)
 #' @author Jenessa Lemon
 #' @examples square.step(pre.terrain)
-#' @export
+#' @export setup.plants(rep, sur, comp.matrix, names)
 setup.plants <- function(repro, survive, comp.mat, names = NULL){
   if(is.null(names)){
-    names <- letters[seq_along(repro)] #is this just assigning names a, b, c, if it doesn't already have a name?
+    names <- letters[seq_along(repro)] #this is just assigning names a, b, c, if it doesn't already have a name?
   }
-  if(length(repro) != length(survive)){
-    stop("Reproduction and survival parameters needed for all species!")
+  if(length(repro) != length(names)){
+    stop("Reproduction values needed for all species!")
+  }
+  if(length(survive) != length(names)){
+    stop("Survival values needed for all species!")
   }
   if(nrow(comp.mat) != ncol(comp.mat)){
     stop("Please enter a square matrix")
@@ -51,7 +57,7 @@ setup.plants <- function(repro, survive, comp.mat, names = NULL){
   if (!is.matrix(comp.mat)){
     "Please insert competition probabilities as a matrix"
   }
-  survive <- setNames(survive, names)
+  survive <- setNames(survive, names) #I also want to assign survival values to the names.
   repro <- setNames(repro, names)
   return(list(repro=repro, survive=survive, comp.mat=comp.mat, names=names))
 }
