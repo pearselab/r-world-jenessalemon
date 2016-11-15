@@ -8,19 +8,7 @@ sur #just checking
 comp.list <- runif(n=length(rep)^2, min = 0, max = 1)
 comp.list #just checking
 comp.matrix <- matrix(comp.list, nrow = length(rep), ncol = length(rep))
-comp.matrix
-#### I manually created a matrix before I saw Carol's cool way to randomly generate one.
-#comp.matrix <- matrix(data = NA, nrow=3, ncol=3)
-#comp.matrix[1, 1] <- .2
-#comp.matrix[1, 2] <- .9
-#comp.matrix[1, 3] <- .4
-#comp.matrix[2, 1] <- .5
-#comp.matrix[2, 2] <- .1
-#comp.matrix[2, 3] <- .3
-#comp.matrix[3, 1] <- .6
-#comp.matrix[3, 2] <- .8
-#comp.matrix[3, 3] <- .7
-#comp.matrix #just a check
+comp.matrix #just checking
 
 names <- list("shockleyi", "soredium") #does it matter if we use a list or a vector?
 
@@ -62,22 +50,30 @@ setup.plants <- function(repro, survive, comp.mat, names = NULL){
   return(list(repro=repro, survive=survive, comp.mat=comp.mat, names=names))
 }
 info <- setup.plants(rep, sur, comp.matrix, names) #calling to see if it works and saving it as info for later.
-info
+info #just checking
 
-#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
-#' @param the matrix returned by the diamond.step function above should be passed in here.
+#' This function runs one timestep of our simulation across the whole simulated ecosystem.
+#' @param plants is
+#' @param terrain is the terrain generated in terrain.R
+#' @param info is the output from the setup.plants function above
 #' @author Jenessa Lemon
-#' @examples square.step(pre.terrain)
+#' @examples plant.timestep(char.matrix, terrain, info)
 #' @export
 plant.timestep(plants, terrain, info){
+  #' This function randomly draws from a uniform distribution to determind whether an individual survives according to our parameters.
+  #' @param cell
+  #' @param info is the output of the setup.plants function above
+  #' @author Jenessa Lemon
+  #' @examples square.step(pre.terrain)
+  #' @export
   survive <- function(cell, info){
     for(cell in terrain){  #do I need a for loop here?
       if(is.na(terrain[cell]) || terrain[cell] != " "){   #if the cell is water or occupied
       return(plants) #or do I want to return terrain?
-      }else{
-        if(runif(1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
+      }else{ #if the cell is avaialable for a plant to grow here
+        if(runif(n=1, min=0, max=1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
         terrain[cell] <- info[i] #not sure if i am supposed to be using info here
-        return(modified.plants)
+        return(terrain) #supposed to return a modified version of "plants"
         #The plant might reproduce
         }
       }
