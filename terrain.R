@@ -1,13 +1,11 @@
-'''Diamond Step Algorithm:
 
-############################################################################################################
 setup.matrix <- function(dimen){
   if(dimen %% 2 == 0){
     dimen <- dimen+1           #If the number is even add one to make it odd.
   }
   ter.mat <- matrix(nrow = dimen, ncol = dimen) #ensuring a square matrix
   #Four corners
-  ter.mat[1,1] <- rnorm(1, rnorm(1), runif(1, min = 0)) #one draw, random mean, random sd, from a uniform distribution beacuse we can't have a negative sd!
+  ter.mat[1,1] <- rnorm(1, rnorm(1), runif(1, min = 0)) #one draw, random mean, random sd, from a uniform distribution beacuse we cant have a negative sd!
   ter.mat[1, ncol(ter.mat)] <- rnorm(1, rnorm(1), runif(1, min = 0))
   ter.mat[nrow(ter.mat), 1] <- rnorm(1, rnorm(1), runif(1, min = 0))
   ter.mat[nrow(ter.mat), ncol(ter.mat)] <- rnorm(1, rnorm(1), runif(1, min = 0))
@@ -52,29 +50,45 @@ terrain <- square.step(pre.terrain)
 #terrain #just a check
 
 #write two functions that expect to be given a square matrix, and will simply carry out each step on that matrix. It will have ‘step through’ your matrix, calling those functions with smaller and smaller chunks of the matrix as the algorithm progresses.
-diamond.square.step <- function(dimensions){
-  midpoint <- function(x){
-    
+diamond.square.step <- function(dimens){
+  matrix1 <- setup.matrix(dimens)
+  matrix2 <- diamond.step(matrix1)
+  mat <- square.step(matrix2)
+  size <- ncol(mat) - 1
+  for (i in seq(from=1, to=(ncol(mat)), by=size)){ #I want the by to be cut in half every iteration
+    mat[i:i, i:i]<-diamond.step(mat[i:i, i:i])
+    mat[i:i, i:i]<-square.step(mat[i:i, i:i])
+    for (j in seq(from=1, to=(nrow(mat)), by=size)){
+      mat[j:j, j:j]<-diamond.step(mat[j:j, j:j)
+      mat[j:j, j:j]<-square.step(mat[j:j, j:j])
+    }
   }
-  step1 <- function(dimen){
-    matrix1 <- setup.matrix(dimensions)
-    matrix2 <- diamond.step(matrix1)
-    matrix3 <- square.step(matrix2)
-    return(matrix3)
-  }
-  for (i in dimensions){ #probably going to have some tricky subsetting 
-    step1(matrix3)
 }
-diamond.square.step(terrain)
-#Awesome. Now I need a way to navigate through the matrix
+hey <- diamond.square.step(5)
+hey
+seq(1, 9, 8)
+seq(1, 9, 4)
+seq(1, 9, 2)
 
-make.terrian <- function(matrix){
-  n <- (ncol + 1)/2
-  diamond.step(matrix[1:n], matrix[1:n])
-  square.step(matrix[1:n], matrix[1:n])
-  return(matrix)
-}
-make.terrain(setup)
-setup
+
+#In English first:
+#I want a function that will loop through a matrix of any size, covering all 
+#quadrants and subquadrants and applying diamond.step and square.step.
+#The first block of code will make the matrix and run the initial diamond 
+#and square steps.
+#From then on I am going to use the seq function.
+> seq(1, 9, 8)
+[1] 1 9
+> seq(1, 9, 4)
+[1] 1 5 9
+> seq(1, 9, 2)
+[1] 1 3 5 7 9
+#The seq function is cool because by cutting the "by" in half every time,
+#it gives us the dimensions for each sub square.
+#I need to somehow take these dimensions, and index the matrix from 1:3, 3:5, 5:7, 7:9
+#I have no idea how to do that
+
+
+
 
 
