@@ -78,19 +78,16 @@ diamond.square.step <- function(dimens){
   matrix1 <- setup.matrix(dimens)
   matrix2 <- diamond.step(matrix1)
   mat <- square.step(matrix2)
-  size <- ncol(mat) - 1
-  for (i in 2^(dimens:1)){
-    for (i in seq(from=1, to=(ncol(mat)), by=size)){ #I want the by to be cut in half every iteration
-      mat[i:i, i:i]<-diamond.step(mat[i:i, i:i])
-      mat[i:i, i:i]<-square.step(mat[i:i, i:i])
-      for (j in seq(from=1, to=(nrow(mat)), by=size)){
-        mat[j:j, j:j]<-diamond.step(mat[j:j, j:j)
-        mat[j:j, j:j]<-square.step(mat[j:j, j:j])
+  for (i in 2^(dimens:1)){ #cuts the by in half sequentially
+    for (j in seq(1, (ncol(mat)), by=i)){ #looping through columns
+      for (k in seq(1, (nrow(mat)), by=i)){ #looping through rows
+        mat[k:(k+i),j:(j+i)] <- diamond.step(mat[k:(k+i),j:(j+i)]) #first diamond step
+        mat[k:(k+i),j:(j+i)] <- square.step(mat[k:(k+i),j:(j+i)]) #then square step
       }
     }
-  }
-}
-hey <- diamond.square.step(5)
+  } #closes for loop
+} #closes function
+hey <- diamond.square.step(9)
 hey
 
 
