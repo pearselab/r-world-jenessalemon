@@ -13,7 +13,7 @@ comp.matrix #just checking
 names <- list("shockleyi", "soredium") #does it matter if we use a list or a vector?
 
 char.matrix <- matrix(data=NA, nrow = length(rep), ncol = length(rep)) #initializing a matrix of appropriate size.
-char.matrix #just checking
+plants <- char.matrix #just checking
 
 #' This function checks that both reproduction and survival vectors are the lenght of the number of species in the simulation. It also checks that that the competition matrix has the dimensions of all of these variables.
 #' @param repro is the vector of probabilities that will determine if a plant of a given species will reproduce.
@@ -67,23 +67,25 @@ plant.timestep(plants, terrain, info){
   #' @examples square.step(pre.terrain)
   #' @export
   survive <- function(cell, info){
-    for(cell in terrain){  #do I need a for loop here?
-      if(is.na(terrain[cell]) || terrain[cell] != " "){   #if the cell is water or occupied
-      return(plants) #or do I want to return terrain?
-      }else{ #if the cell is avaialable for a plant to grow here
-        if(runif(n=1, min=0, max=1) <= info$survive[plant]){ #we use runif to draw a random number from a uniform distribution. We then compare this random draw to the probability of the other plant surviving, and the one with the highest probability wins. This makes sense because we want the plant to have a random chance of surviving.
-        terrain[cell] <- info[i] #not sure if i am supposed to be using info here
-        return(terrain) #supposed to return a modified version of "plants"
-        #The plant might reproduce
-        }
+    if(is.na(cell)){ #water
+      return(NA)
+    }
+    if(cell != ' '){
+      return(cell)  #if occupied, compete!
+      #compete
+    }
+    if(cell == ' '){ #Then we're actually going to see if the plants survives
+      if(runif(1) >= info$survive[cell]) #If a random draw from a uniform distribution is higher than the survival probability,
+        return(' ') #Do nothing!
+      }else{
+        plants[cell] <- info$names #Ok, how do we know what plant is trying to grow?
       }
-    } #closes the for loop
   } #closes survive function
-  for (i in plants){
-    plants[i] <- survive(plants[i]) #not sure if this is right or if I need "plants[i] <-"
+  for (i in (1:100)){
+    plants[i] <- survive(plants[i]) #not sure if this is right or if I should be doing it like the line below
+    plant <- reproduce(row, column, plants, info) #this comes from 6.3, we are calling our reproduce function
   }
-  plant <- reproduce(row, column, plants, info) #this comes from 6.3, we are calling our reproduce function
-  return(new.plants.matrix) #wouldn't this have to return plants?
+  return(plants) #edited plant matrix
 }
 plant.timestep(char.matrix, terrain, info) #calling to see if it works
 

@@ -71,20 +71,22 @@ terrain <- square.step(pre.terrain)
 #' @export
 #write two functions that expect to be given a square matrix, and will simply carry out each step on that matrix. It will have ‘step through’ your matrix, calling those functions with smaller and smaller chunks of the matrix as the algorithm progresses.
 #ATTEMPT 1
+
+2^(9:1)
+
 diamond.square.step <- function(dimens){
   matrix1 <- setup.matrix(dimens)
   matrix2 <- diamond.step(matrix1)
   mat <- square.step(matrix2)
   size <- ncol(mat) - 1
-  for (i in 1:who knows){
-    size <- seq(1, size, by = (i-1)/2)
-  }
-  for (i in seq(from=1, to=(ncol(mat)), by=size)){ #I want the by to be cut in half every iteration
-    mat[i:i, i:i]<-diamond.step(mat[i:i, i:i])
-    mat[i:i, i:i]<-square.step(mat[i:i, i:i])
-    for (j in seq(from=1, to=(nrow(mat)), by=size)){
-      mat[j:j, j:j]<-diamond.step(mat[j:j, j:j)
-      mat[j:j, j:j]<-square.step(mat[j:j, j:j])
+  for (i in 2^(dimens:1)){
+    for (i in seq(from=1, to=(ncol(mat)), by=size)){ #I want the by to be cut in half every iteration
+      mat[i:i, i:i]<-diamond.step(mat[i:i, i:i])
+      mat[i:i, i:i]<-square.step(mat[i:i, i:i])
+      for (j in seq(from=1, to=(nrow(mat)), by=size)){
+        mat[j:j, j:j]<-diamond.step(mat[j:j, j:j)
+        mat[j:j, j:j]<-square.step(mat[j:j, j:j])
+      }
     }
   }
 }
