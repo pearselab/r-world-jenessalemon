@@ -12,8 +12,9 @@ comp.matrix #just checking
 
 names <- list("shockleyi", "soredium") #does it matter if we use a list or a vector?
 
-char.matrix <- matrix(data=NA, nrow = length(rep), ncol = length(rep)) #initializing a matrix of appropriate size.
+char.matrix <- matrix(data=NA, nrow = length(terrain), ncol = length(terrain)) #initializing a matrix of appropriate size (which is the size of the terrain).
 plants <- char.matrix #just checking
+plants
 
 #' This function checks that both reproduction and survival vectors are the lenght of the number of species in the simulation. It also checks that that the competition matrix has the dimensions of all of these variables.
 #' @param repro is the vector of probabilities that will determine if a plant of a given species will reproduce.
@@ -59,42 +60,40 @@ info #just checking
 #' @author Jenessa Lemon
 #' @examples plant.timestep(char.matrix, terrain, info)
 #' @export
-plant.timestep(plants, terrain, info){
+plant.timestep(plants, terrain, info){ #didn't ever use plants
   #' This function randomly draws from a uniform distribution to determind whether an individual survives according to our parameters.
   #' @param cell
   #' @param info is the output of the setup.plants function above
   #' @author Jenessa Lemon
   #' @examples square.step(pre.terrain)
   #' @export
-  survive <- function(cell, info){
-    if(is.na(cell)){ #water
-      return(NA)
-    }
-    if(cell != ' '){
-      return(cell)  #if occupied, compete!
-      #compete
-    }
-    if(cell == ' '){ #Then we're actually going to see if the plants survives
-      if(runif(1) >= info$survive[cell]) #If a random draw from a uniform distribution is higher than the survival probability,
-        return(' ') #Do nothing!
-      }else{
-        plants[cell] <- info$names #Ok, how do we know what plant is trying to grow?
+  survive <- function(plants, info){
+    for (i in 1:ncol(terrain)){
+      for (j in 1:nrow(terrain)){
+        if(is.na(terrain[i,j])){ #water should stay water
+          return(NA)
+        }
+        if(terrain[i,j] != ' '){
+          return(cell)  #if occupied, compete!
+            #compete
+        }
+        if(terrain[i,j] == ' '){ #Then we're actually going to see if the plants survives
+          if(runif(1) >= info$survive[cell]){ #If a random draw from a uniform distribution is higher than the survival probability,
+            return(' ') #Don't change anything
+          }else{
+            terrain[i,j] <- NAME OF THE SPECIES TAKING OVER???)    #I DONT UNDERSTAND WHY ON GOD'S GREEN EARTH THIS WOULD RETURN A VECTOR. To me it seems like I need to put a plant in that cell.
+          }
+        }
       }
-  } #closes survive function
-  for (i in (1:100)){
-    plants[i] <- survive(plants[i]) #not sure if this is right or if I should be doing it like the line below
-    plant <- reproduce(row, column, plants, info) #this comes from 6.3, we are calling our reproduce function
-  }
-  return(plants) #edited plant matrix
+    }
+  } # closes survive function
+
+  return(terrain) #edited plant matrix
 }
 plant.timestep(char.matrix, terrain, info) #calling to see if it works
 
-#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
-#' @param the matrix returned by the diamond.step function above should be passed in here.
-#' @author Jenessa Lemon
-#' @examples square.step(pre.terrain)
-#' @export
-###Ok now you are at 6.3!###
+
+###Ok, I'm out of time to complete this function###
 reproduce <- function(row, col, plants, info){
   possible.locations <- as.matrix(expand.grid(row+c(-1,0,1), col+c(-1,0,1)))
   #possible.locations
@@ -102,7 +101,7 @@ reproduce <- function(row, col, plants, info){
     reproduce!
   }
   #being careful to check you do have somewhere to reproduce to! ...???
-  if(someone is already in the possible location){
+  if(cell != " "){
     they are going to compete!
   }
   return(plants)
@@ -110,6 +109,7 @@ reproduce <- function(row, col, plants, info){
 
 fight <- function(names, 1, prob=comp.mat[row, column]){
 }
+
 #' This function uses the dimensions of a matrix to find and assign values to certain target cells.
 #' @param the matrix returned by the diamond.step function above should be passed in here.
 #' @author Jenessa Lemon
@@ -117,11 +117,16 @@ fight <- function(names, 1, prob=comp.mat[row, column]){
 #' @export
 run.plant.ecosystem <- function(terrain){
   plants <- array("", dim=c(terrain), timesteps+1)) #why timesteps +1?
-for(i in seq_len(dim(plants)[3])){
-  plants[,,i][is.na(terrain)] <- NA
+  for(i in seq_len(dim(plants)[3])){
+    plants[,,i][is.na(terrain)] <- NA
+  }
 }
-}
+#for a given time calculate the next page a slot into our array
 
+output of survive is a vector that goes into
+what does plant.timestep do?
+it loops over a matrix by row and column, thats how it knows what cell,
+and it assigns the survive function to each cell
 
 
 
