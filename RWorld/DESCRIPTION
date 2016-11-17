@@ -1,0 +1,10 @@
+Package: RWorld
+Type: Package
+Title: Terrain and Plant Simulation
+Version: 0.1.0
+Author: Jenessa Lemon
+Maintainer: Who to complain to <jenessablotter12@yahoo.com>
+Description: This package creates a square terrain and simulates a plant ecosystem. Plants survive, die, reproduce, and compete.
+License: GPL-3
+LazyData: TRUE
+RoxygenNote: 5.0.1

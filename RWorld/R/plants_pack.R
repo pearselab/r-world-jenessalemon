@@ -1,23 +1,6 @@
 install.packages('roxygen2')
 library(roxygen2)
-roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon/plants.R")
-#Parameters
-rep <- runif(n=2, min=0, max=1) #runif because we don't want negative probabilities!
-rep #just checking
-
-sur <- survive <- runif(n=length(rep), min=0, max=1) #again we don't want negatives, and we want the same length
-sur #just checking
-
-comp.list <- runif(n=length(rep)^2, min = 0, max = 1)
-comp.list #just checking
-comp.matrix <- matrix(comp.list, nrow = length(rep), ncol = length(rep))
-comp.matrix #just checking
-
-names <- list("shockleyi", "soredium") #does it matter if we use a list or a vector?
-
-char.matrix <- matrix(data=" ", nrow = length(terrain), ncol = length(terrain)) #initializing a matrix of appropriate size (which is the size of the terrain).
-plants <- char.matrix #just checking
-plants
+roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon")
 
 #' This function checks that both reproduction and survival vectors are the length of the number of species in the simulation. It also checks that that the competition matrix has the dimensions of all of these variables.
 #' @param repro is the vector of probabilities that will determine if a plant of a given species will reproduce.
@@ -54,8 +37,6 @@ setup.plants <- function(repro, survive, comp.mat, names = NULL){
   repro <- setNames(repro, names)
   return(list(repro=repro, survive=survive, comp.mat=comp.mat, names=names))
 }
-info <- setup.plants(rep, sur, comp.matrix, names) #calling to see if it works and saving it as info for later.
-info #just checking
 
 #' This function runs one timestep of our simulation across the whole simulated ecosystem.
 #' @param plants is the char.matrix from above
@@ -64,13 +45,7 @@ info #just checking
 #' @author Jenessa Lemon
 #' @examples plant.timestep(char.matrix, terrain, info)
 #' @export
-plant.timestep <- function(plants, terrain, info){ #didn't ever use plants
-  #' This function randomly draws from a uniform distribution to determind whether an individual survives according to our parameters.
-  #' @param terrain from terrain.R
-  #' @param info is the output of the setup.plants function above
-  #' @author Jenessa Lemon
-  #' @examples survive(pre.terrain)
-  #' @export
+plant.timestep <- function(plants, terrain, info){
   survive <- function(terrain, info){
     for (i in 1:ncol(terrain)){
       for (j in 1:nrow(terrain)){
@@ -78,16 +53,16 @@ plant.timestep <- function(plants, terrain, info){ #didn't ever use plants
           return(NA)
         }
         #if(terrain[i,j] != ' '){
-         # return(cell)  #if occupied, compete!
-            #compete
+        # return(cell)  #if occupied, compete!
+        #compete
+      }
+      if(terrain[i,j] == ' '){ #Then we're actually going to see if the plants survives
+        if(runif(1) >= info$survive[]){ #If a random draw from a uniform distribution is higher than the survival probability,
+          return(' ') #Don't change anything
+        }else{
+          terrain[i,j] <- 0   #I DONT UNDERSTAND WHY ON GOD'S GREEN EARTH THIS WOULD RETURN A VECTOR. The entire point is that the plant survived, so it needs to be there.
         }
-        if(terrain[i,j] == ' '){ #Then we're actually going to see if the plants survives
-          if(runif(1) >= info$survive[]){ #If a random draw from a uniform distribution is higher than the survival probability,
-            return(' ') #Don't change anything
-          }else{
-            terrain[i,j] <-     #I DONT UNDERSTAND WHY ON GOD'S GREEN EARTH THIS WOULD RETURN A VECTOR. The entire point is that the plant survived, so it needs to be there.
-          }
-        }
+      }
     }
   }
   for (i in plants){
@@ -95,28 +70,9 @@ plant.timestep <- function(plants, terrain, info){ #didn't ever use plants
     return(slice) #edited plant matrix
   }
 }
-plant.timestep(plants, terrain, info) #calling to see if it works
-
-
-###Ok, I'm out of time to complete this function###
-# reproduce <- function(row, col, plants, info){
-#   possible.locations <- as.matrix(expand.grid(row+c(-1,0,1), col+c(-1,0,1)))
-#   #possible.locations
-#   if(!is.na(possible.locations)){
-#     reproduce!
-#   }
-#   #being careful to check you do have somewhere to reproduce to! ...???
-#   if(cell != " "){
-#     they are going to compete!
-#   }
-#   return(plants)
-# }
-#
-# fight <- function(names, 1, prob=comp.mat[row, column]){
-# }
 
 #' Takes a terrain from the user and runs our plant ecosystem.
-#' @param the matrix returned by terrain.R
+#' @param terrain is the matrix returned by terrain.R
 #' @author Jenessa Lemon
 #' @examples run.plant.ecosystem(terrain)
 #' @return the plant ecosystem
@@ -127,4 +83,3 @@ run.plant.ecosystem <- function(terrain){
     plants[,,i][is.na(terrain)] <- NA
   }
 }
-#for a given time calculate the next page a slot into our array
