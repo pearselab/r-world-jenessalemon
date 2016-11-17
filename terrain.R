@@ -1,8 +1,10 @@
-roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon")
+install.packages('roxygen2')
+roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon/terrain.R")
 #' Creates a variable terrain from a matrix of given dimensions
-#' @param dimen stants for dimensions, which represent the length of the square sides of the matrix.
+#' @param dimen stands for dimensions, which represent the length of the square sides of the matrix.
 #' @author Jenessa Lemon
 #' @examples setup.matrix(9)
+#' @return a matrix of given dimensions, with the corner values filled in.
 #' @export
 setup.matrix <- function(dimen){
   if(dimen %% 2 == 0){
@@ -17,12 +19,13 @@ setup.matrix <- function(dimen){
   return(ter.mat)
 }
 setup <- setup.matrix(5)
-#setup  #just a check
+setup  #just a check
 
 #' Based off of the dimensions of the matrix, this function finds the four corners of the square matrix, and then finds the middle of the matrix, assigning it a value.
 #' @param the matrix created from the setup.matrix above should be passed in here.
 #' @author Jenessa Lemon
 #' @examples diamond.step(setup)
+#' @return return the same matrix from the output of setup.matrix, with the center value now filled in.
 #' @export
 diamond.step <- function(matrix){
   topL <- matrix[1,1]
@@ -42,6 +45,7 @@ pre.terrain #just a check
 #' @param the matrix returned by the diamond.step function above should be passed in here.
 #' @author Jenessa Lemon
 #' @examples square.step(pre.terrain)
+#' @return the matrix from the output of diamon.step, but now the square step is completed.
 #' @export
 square.step <- function(matrix){
   topL <- matrix[1,1]
@@ -68,12 +72,8 @@ terrain #just a check
 #' @param a matrix returned by setup.matrix function above should be passed in here.
 #' @author Jenessa Lemon
 #' @examples diamond.square.step(terrain)
+#' @return a matrix, which represents a "slice" in time, to be added to the array in the following function.
 #' @export
-#write two functions that expect to be given a square matrix, and will simply carry out each step on that matrix. It will have ‘step through’ your matrix, calling those functions with smaller and smaller chunks of the matrix as the algorithm progresses.
-#ATTEMPT 1
-
-2^(9:1)
-
 diamond.square.step <- function(dimens){
   matrix1 <- setup.matrix(dimens)
   matrix2 <- diamond.step(matrix1)
@@ -90,6 +90,17 @@ diamond.square.step <- function(dimens){
 hey <- diamond.square.step(9)
 hey
 
+#' This function is a wrapper that pulls the above functions together.
+#' @param a matrix returned by setup.matrix function above should be passed in here.
+#' @author Jenessa Lemon
+#' @examples diamond.square.step(terrain)
+#' @return the final product- the terrain!
+#' @export
+make.terrain <- function(dimens)
+  diamond.square.step(dimens)     #...well that was pointless
+
+
+
 
 #In English first:
 #I want a function that will loop through a matrix of any size, covering all
@@ -105,5 +116,3 @@ hey
 [1] 1 3 5 7 9
 #The seq function is cool because by cutting the "by" in half every time,
 #it gives us the dimensions for each sub square.
-#I need to somehow take these dimensions, and index the matrix from 1:3, 3:5, 5:7, 7:9
-#I have no idea how to do that
