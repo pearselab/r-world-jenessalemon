@@ -57,7 +57,7 @@ survive <- function(cell, info){
   if(cell == ' '){ #Then we're actually going to see if the plants survives
     if(runif(1) >= info$survive[plant]){ #If a random draw from a uniform distribution is higher than the survival probability,
       return(' ') #Don't change anything, it didn't survive :(
-    }else{ #the plant survives! SO WE NEED TO PUT THAT PLANT INTO THAT SPOT. I can't think of a reason to do anything else. I simple do not get it. This is the best I can possibly do here. I have to move on.
+    }else{ #the plant survives! SO WE NEED TO PUT THAT PLANT INTO THAT SPOT. I can't think of a reason to do anything else. This is the best I can possibly do here. I have to move on.
       cell <- info$names[plant]
     }
   }

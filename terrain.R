@@ -68,6 +68,9 @@ diamond.square.step <- function(dimens){
 } #closes function
 test <- diamond.square.step(9)
 test
+#The error here says: Error in seq.default(1, (ncol(mat) - i), by = i) :
+#wrong sign in 'by' argument.
+#I tried changing to "by = -i" but then got an out of bounds error again.
 
 #################################################################
 make.terrain <- function(dimens){
