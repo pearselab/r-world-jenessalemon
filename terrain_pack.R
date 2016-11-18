@@ -1,7 +1,3 @@
-install.packages('roxygen2')
-library(roxygen2)
-roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon/RWorld")
-
 #' Creates a variable terrain from a matrix of given dimensions
 #' @param dimen stands for dimensions, which represent the length of the square sides of the matrix.
 #' @author Jenessa Lemon
