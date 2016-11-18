@@ -47,35 +47,33 @@ info <- setup.plants(rep, sur, comp.matrix, names) #calling to see if it works a
 info #just checking
 
 ##############################
-survive <- function(terrain[i,j], info){
-  if(is.na(terrain[i,j])){ #water should stay water
+#This function evaluates whether a cell is occupied, under water, or open. If it is open, chance determines whether or not the plant survives and occupies the cell.
+survive <- function(cell, info){
+  if(is.na(cell)){ #water should stay water
     return(NA)
   }
-  #if(terrain[i,j] != ' '){
+  #if(cell != ' '){
   # return(cell)  #if occupied, compete!
-  if(terrain[i,j] == ' '){ #Then we're actually going to see if the plants survives
-    if(runif(1) >= info$survive[plant]]){ #If a random draw from a uniform distribution is higher than the survival probability,
-      return(' ') #Don't change anything
+  if(cell == ' '){ #Then we're actually going to see if the plants survives
+    if(runif(1) >= info$survive[plant]){ #If a random draw from a uniform distribution is higher than the survival probability,
+      return(' ') #Don't change anything, it didn't survive :(
     }else{ #the plant survives! SO WE NEED TO PUT THAT PLANT INTO THAT SPOT. I can't think of a reason to do anything else. I simple do not get it. This is the best I can possibly do here. I have to move on.
-      terrain[i,j] <- info$names[1]
+      cell <- info$names[plant]
     }
   }
 }
-
 
 ################################################
-plant.timestep <- function(plants, terrain, info){
-  for (i in 1:nrow(terrain)){
-    for (j in 1:ncol(terrain)){
-      terrain[i,j] <- survive(terrain[i,j])
+#This function applies the survive function (above) to an entire plant matrix.
+plant.timestep <- function(plants){
+  for (i in 1:nrow(plants)){
+    for (j in 1:ncol(plants)){
+      plants[i,j] <- survive(plants[i,j]) #this is why in the survive function we can just call it "cell"
     }
   }
-  slice <- plant.timestep(terrain)
-    return(slice) #edited plant matrix
-  }
+  return(terrain) #edited plant matrix
 }
-plant.timestep(plants, terrain, info) #calling to see if it works
-
+plant.timestep(plants)
 
 ###Ok, I'm out of time to complete this function###
 # reproduce <- function(row, col, plants, info){
@@ -95,10 +93,15 @@ plant.timestep(plants, terrain, info) #calling to see if it works
 # }
 
 ##########################################################
-run.plant.ecosystem <- function(terrain){
-  plants <- array("", dim=c(terrain), timesteps+1) #why timesteps +1?
-  for(i in seq_len(dim(plants)[3])){
-    plants[,,i][is.na(terrain)] <- NA
+#This function generates "slices" in time (of our terrain) and stores them in a multidimensional array.
+run.plant.ecosystem <- function(terrain, timesteps){
+  plants <- array("", dim=c(terrain), timesteps+1)
+  for (i in 1:timesteps){ #let's do 50 timesteps
+    plants[,,i] <- plant.timestep(terrain)        #I'm trying to assign a slice of the array, but I think I'm assigning a cell.
   }
+  for(i in seq_len(dim(plants)[3])){
+    plants[,,i][is.na(terrain)] <- NA             #Kill the plants growing on water! They're not supposed to do that!
+  }
+  return(plants)
 }
 #for a given time calculate the next page a slot into our array
