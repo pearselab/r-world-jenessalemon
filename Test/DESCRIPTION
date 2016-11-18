@@ -1,10 +1,10 @@
 Package: Test
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Double a Number
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Jenessa Lemon
+Maintainer: Who to complain to <jenessablotter12@yahoo.com>
+Description: This package takes x, doubles it, and returns nothing.
+License: GPL
 LazyData: TRUE
 RoxygenNote: 5.0.1
