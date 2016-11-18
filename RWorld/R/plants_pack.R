@@ -1,6 +1,6 @@
 install.packages('roxygen2')
 library(roxygen2)
-roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon")
+roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon/RWorld")
 
 #' This function checks that both reproduction and survival vectors are the length of the number of species in the simulation. It also checks that that the competition matrix has the dimensions of all of these variables.
 #' @param repro is the vector of probabilities that will determine if a plant of a given species will reproduce.
