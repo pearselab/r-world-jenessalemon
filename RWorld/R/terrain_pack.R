@@ -18,7 +18,7 @@ setup.matrix <- function(dimen){
 }
 
 #' Based off of the dimensions of the matrix, this function finds the four corners of the square matrix, and then finds the middle of the matrix, assigning it a value.
-#' @param the matrix created from the setup.matrix above should be passed in here.
+#' @param matrix created from the setup.matrix above should be passed in here.
 #' @author Jenessa Lemon
 #' @examples diamond.step(setup)
 #' @return return the same matrix from the output of setup.matrix, with the center value now filled in.
@@ -36,7 +36,7 @@ diamond.step <- function(matrix){
 }
 
 #' This function uses the dimensions of a matrix to find and assign values to certain target cells.
-#' @param the matrix returned by the diamond.step function above should be passed in here.
+#' @param matrix returned by the diamond.step function above should be passed in here.
 #' @author Jenessa Lemon
 #' @examples square.step(pre.terrain)
 #' @return the matrix from the output of diamon.step, but now the square step is completed.
@@ -61,9 +61,9 @@ square.step <- function(matrix){
 }
 
 #' This function uses the dimensions of a matrix to find and assign values to certain target cells.
-#' @param a matrix returned by setup.matrix function above should be passed in here.
+#' @param matrix returned by setup.matrix function above should be passed in here.
 #' @author Jenessa Lemon
-#' @examples diamond.square.step(terrain)
+#' @examples diamond.square.step(dimens)
 #' @return a matrix, which represents a "slice" in time, to be added to the array in the following function.
 #' @export
 diamond.square.step <- function(dimens){
@@ -81,7 +81,7 @@ diamond.square.step <- function(dimens){
 } #closes function
 
 #' This function is a wrapper that pulls the above functions together.
-#' @param a matrix returned by setup.matrix function above should be passed in here.
+#' @param matrix returned by setup.matrix function above should be passed in here.
 #' @author Jenessa Lemon
 #' @examples diamond.square.step(terrain)
 #' @return the final product- the terrain!
