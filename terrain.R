@@ -1,12 +1,3 @@
-install.packages('roxygen2')
-library(roxygen2)
-roxygenize("/Users/jimblotter/Desktop/Grad School/Programming_for_Biologists/r-world-jenessalemon/terrain.R")
-#' Creates a variable terrain from a matrix of given dimensions
-#' @param dimen stands for dimensions, which represent the length of the square sides of the matrix.
-#' @author Jenessa Lemon
-#' @examples setup.matrix(9)
-#' @return a matrix of given dimensions, with the corner values filled in.
-#' @export
 setup.matrix <- function(dimen){
   if(dimen %% 2 == 0){
     dimen <- dimen+1           #If the number is even add one to make it odd.
@@ -22,12 +13,7 @@ setup.matrix <- function(dimen){
 setup <- setup.matrix(5)
 setup  #just a check
 
-#' Based off of the dimensions of the matrix, this function finds the four corners of the square matrix, and then finds the middle of the matrix, assigning it a value.
-#' @param the matrix created from the setup.matrix above should be passed in here.
-#' @author Jenessa Lemon
-#' @examples diamond.step(setup)
-#' @return return the same matrix from the output of setup.matrix, with the center value now filled in.
-#' @export
+############
 diamond.step <- function(matrix){
   topL <- matrix[1,1]
   topR <- matrix[1, ncol(matrix)]
@@ -42,12 +28,7 @@ diamond.step <- function(matrix){
 pre.terrain <- diamond.step(setup)
 pre.terrain #just a check
 
-#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
-#' @param the matrix returned by the diamond.step function above should be passed in here.
-#' @author Jenessa Lemon
-#' @examples square.step(pre.terrain)
-#' @return the matrix from the output of diamon.step, but now the square step is completed.
-#' @export
+######################
 square.step <- function(matrix){
   topL <- matrix[1,1]
   topR <- matrix[1, ncol(matrix)]
@@ -69,12 +50,7 @@ square.step <- function(matrix){
 terrain <- square.step(pre.terrain)
 terrain #just a check
 
-#' This function uses the dimensions of a matrix to find and assign values to certain target cells.
-#' @param a matrix returned by setup.matrix function above should be passed in here.
-#' @author Jenessa Lemon
-#' @examples diamond.square.step(terrain)
-#' @return a matrix, which represents a "slice" in time, to be added to the array in the following function.
-#' @export
+################################
 diamond.square.step <- function(dimens){
   step <- 2^(dimens:1)
   matrix1 <- setup.matrix(dimens)
@@ -93,12 +69,7 @@ diamond.square.step <- function(dimens){
 test <- diamond.square.step(9)
 test
 
-#' This function is a wrapper that pulls the above functions together.
-#' @param dimens are the dimensions the user chooses for the matrix.
-#' @author Jenessa Lemon
-#' @examples final.product <- make.terrain(15)
-#' @return the final product- the terrain!
-#' @export
+#################################################################
 make.terrain <- function(dimens){
   mat <- diamond.square.step(dimens)
   for (i in mat){
