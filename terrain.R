@@ -93,8 +93,6 @@ diamond.square.step <- function(dimens){
 test <- diamond.square.step(9)
 test
 
-2^(9:1)
-
 #' This function is a wrapper that pulls the above functions together.
 #' @param dimens are the dimensions the user chooses for the matrix.
 #' @author Jenessa Lemon
