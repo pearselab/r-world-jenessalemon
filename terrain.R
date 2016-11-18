@@ -76,10 +76,11 @@ terrain #just a check
 #' @return a matrix, which represents a "slice" in time, to be added to the array in the following function.
 #' @export
 diamond.square.step <- function(dimens){
+  step <- 2^(dimens:1)
   matrix1 <- setup.matrix(dimens)
   matrix2 <- diamond.step(matrix1)
   mat <- square.step(matrix2)
-  for (i in 2^(dimens:1)){ #cuts dimens in half sequentially, for a 9x9 matrix: 512 256 128  64  32  16   8   4   2
+  for (i in step){ #cuts dimens in half sequentially, for a 9x9 matrix: 512 256 128  64  32  16   8   4   2
     for (j in seq(1, (ncol(mat)- i), by=i)){ #looping through columns
       for (k in seq(1, (nrow(mat)- i), by=i)){ #looping through rows
         mat[k:(k+i),j:(j+i)] <- diamond.step(mat[k:(k+i),j:(j+i)]) #first diamond step
@@ -95,17 +96,23 @@ test
 2^(9:1)
 
 #' This function is a wrapper that pulls the above functions together.
-#' @param a matrix returned by setup.matrix function above should be passed in here.
+#' @param dimens are the dimensions the user chooses for the matrix.
 #' @author Jenessa Lemon
-#' @examples diamond.square.step(terrain)
+#' @examples final.product <- make.terrain(15)
 #' @return the final product- the terrain!
 #' @export
 make.terrain <- function(dimens){
-  diamond.square.step(dimens)     #...well that was pointless
+  mat <- diamond.square.step(dimens)
+  for (i in mat){
+    if (mat[i] < 0){  #lake
+      mat[i] <- NA
+    }
+  }
+  terrain <- image(mat)
+  return(terrain)
 }
-
-
-
+final.product <- make.terrain(15)
+final.product
 #In English first:
 #I want a function that will loop through a matrix of any size, covering all
 #quadrants and subquadrants and applying diamond.step and square.step.
